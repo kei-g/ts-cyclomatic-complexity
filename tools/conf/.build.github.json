@@ -1,0 +1,20 @@
+{
+  "esbuild": {
+    "format": "cjs",
+    "minify": true,
+    "platform": "node",
+    "target": "node20",
+  },
+  "files": {
+    "src/bin/github.ts": {
+      "esbuild": {
+        "bundle": true,
+        "outfile": ".github/js/ts-cyclomatic-complexity.js",
+      },
+    },
+  },
+  "rewrite": {
+    "\\.ts$": ".js",
+    "^src/": "./",
+  },
+}

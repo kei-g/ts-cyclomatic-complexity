@@ -1,0 +1,15 @@
+updates:
+  - directory: /
+    open-pull-requests-limit: 16
+    package-ecosystem: github-actions
+    schedule:
+      interval: daily
+    target-branch: main
+  - directory: /
+    open-pull-requests-limit: 16
+    package-ecosystem: npm
+    schedule:
+      interval: daily
+    target-branch: main
+    versioning-strategy: increase
+version: 2

@@ -1,0 +1,10 @@
+{
+  "exclude": [
+    "src/bin",
+    "test",
+  ],
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "src",
+  ],
+}

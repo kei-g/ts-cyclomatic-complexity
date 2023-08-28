@@ -1,0 +1,11 @@
+{
+  "exclude": [
+    "lib",
+    "src",
+  ],
+  "extends": [
+    "test/conf/multiple-extends/tsconfig.base.json",
+    "test/conf/multiple-extends/tsconfig.node.json",
+  ],
+  "include": []
+}

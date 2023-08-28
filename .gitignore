@@ -1,0 +1,10 @@
+**/*.d.ts
+**/.nyc_output/
+**/DS_Store/
+**/bin/
+**/coverage/
+**/helpers/
+**/index.js
+**/lib/
+**/node_modules/
+**/types/

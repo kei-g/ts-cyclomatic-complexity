@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "tsconfig.base.json",
+    "test/conf/cyclic-extends/tsconfig.json",
+  ],
+}

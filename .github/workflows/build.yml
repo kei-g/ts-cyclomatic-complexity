@@ -1,0 +1,48 @@
+jobs:
+  build:
+    name: Build on Node.js ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        command:
+          - build
+          - github
+        node:
+          - 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          node-version: ${{ matrix.node }}
+      - name: Upgrade npm
+        run: npm install npm@latest -g
+      - name: Setup modules
+        run: npm ci
+      - name: Build
+        run: npm run ${{ matrix.command }}
+      - continue-on-error: true
+        id: difference
+        if: ${{ matrix.command == 'github' }}
+        name: Check difference
+        run: |
+          git add -N .
+          git diff --name-only --exit-code
+      - if: ${{ matrix.command == 'github' && steps.difference.outcome == 'failure' }}
+        name: Commit changes and push if necessary
+        uses: kei-g/github/put-changes@main
+        with:
+          file: dist/ts-cyclomatic-complexity.js
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          message: ':robot: Build by GitHub Actions'
+          target-branch: main
+name: Build
+on:
+  push:
+    branches:
+      - main

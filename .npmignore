@@ -1,0 +1,13 @@
+**/.*
+**/CODE_OF_CONDUCT.md
+**/CONTRIBUTING.md
+**/action.yml
+**/bin/*.d.ts
+**/coverage/
+**/dist/
+**/helpers/**/*.d.ts
+**/helpers/*.d.ts
+**/src/
+**/test/
+**/tools/
+**/tsconfig{,.base,.node}.json

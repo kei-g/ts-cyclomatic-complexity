@@ -1,0 +1,45 @@
+{
+  "esbuild": {
+    "format": "cjs",
+    "minify": true,
+    "platform": "node",
+    "target": "node20",
+  },
+  "files": {
+    "src/bin/npm.ts": {
+      "esbuild": {
+        "bundle": true,
+        "external": [
+          "..",
+          "json5",
+          "typescript",
+        ],
+        "outfile": "bin/ts-cyclomatic-complexity.js",
+      }
+    },
+    "src/helpers/index.ts": {
+    },
+    "src/helpers/lib": {
+      "recursive": true,
+    },
+    "src/helpers/types/index.ts": {
+      "esbuild": {
+        "bundle": true,
+      },
+    },
+    "src/index.ts": {
+    },
+    "src/lib": {
+      "recursive": true,
+    },
+    "src/types/index.ts": {
+      "esbuild": {
+        "bundle": true,
+      },
+    },
+  },
+  "rewrite": {
+    "\\.ts$": ".js",
+    "^src/": "./",
+  },
+}

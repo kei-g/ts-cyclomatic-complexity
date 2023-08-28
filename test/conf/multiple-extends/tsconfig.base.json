@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "emitBOM": false,
+    "emitDeclarationOnly": true,
+    "emitDecoratorMetadata": true,
+    "lib": [
+      "ES2015",
+      "ES2016",
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "node",
+    "target": "ES2022",
+  },
+  "exclude": [
+    "bin",
+  ],
+  "include": [],
+}

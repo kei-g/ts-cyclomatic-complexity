@@ -1,0 +1,29 @@
+author: kei-g
+branding:
+  color: orange
+  icon: bar-chart-2
+description: >
+  This action calculates cyclomatic complexities of source codes written in TypeScript.
+inputs:
+  tsconfigPath:
+    default: 'tsconfig.json'
+    description: >
+      The file path to tsconfig.json.
+    required: false
+name: TypeScript Cyclomatic Complexity Calculator
+outputs:
+  average:
+    description: >
+      An average value of cyclomatic complexities.
+  maximum:
+    description: >
+      The maximum value of cyclomatic complexities.
+  minimum:
+    description: >
+      The minimum value of cyclomatic complexities.
+  whole-result:
+    description: >
+      The whole result styled in JSON.
+runs:
+  main: .github/app/ts-cyclomatic-complexity.js
+  using: node20

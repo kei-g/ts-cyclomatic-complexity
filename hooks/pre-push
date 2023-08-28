@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+for name in cover lint; do
+  npm run $name &
+done
+
+{
+  node --require esbuild-register tools/build.ts --build=conf/.build.github.json
+  git add -N .
+  git diff --name-only --exit-code
+} &
+
+wait

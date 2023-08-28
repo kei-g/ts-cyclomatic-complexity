@@ -1,0 +1,11 @@
+{
+  "allowCompoundWords": true,
+  "caseSensitive": false,
+  "enabled": true,
+  "version": "0.2",
+  "words": [
+    "cyclomatic",
+    "postci",
+    "tada"
+  ]
+}
