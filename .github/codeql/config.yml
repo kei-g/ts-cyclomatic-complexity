@@ -1,0 +1,7 @@
+name: CodeQL Config
+paths:
+  - src
+  - test
+  - tools
+paths-ignore:
+  - .github/js
