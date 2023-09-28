@@ -105,10 +105,7 @@ const visitString = (ctx: Context, value: string): string => {
   return ctx.prefix + '\'\x1b[32m' + values[index] + suffixes[index] + ',\n'
 }
 
-const visitUnknown = (ctx: Context, value: unknown): string => {
-  const name = typeof value
-  return name in visitors ? (visitors[name] as (ctx: Context, value: unknown) => string)(ctx, value) : ''
-}
+const visitUnknown = (ctx: Context, value: unknown): string => visitors[typeof value]?.(ctx, value) ?? ''
 
 const visitors = {
   bigint: visitNumber,
@@ -117,4 +114,4 @@ const visitors = {
   object: visitObject,
   string: visitString,
   symbol: visitString,
-} as Record<string, unknown>
+} as Record<string, (ctx: Context, value: unknown) => string>
