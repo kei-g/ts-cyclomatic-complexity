@@ -6,7 +6,6 @@ import {
   lstat,
   readdir,
   readlink,
-  stat,
 } from 'fs/promises'
 
 import {
@@ -38,20 +37,9 @@ export const enumerateFilesAsync = async (path: string, callback: Action<string>
 }
 
 const resolveSymbolicLinkAsync = async (context: SymbolicLinkContext): Promise<void> => {
-  if (context.stats.isSymbolicLink()) {
-    const paths: string[] = []
-    await traceSymbolicLinkAsync(paths, context.path)
-    context.path = paths.at(-1) as string
-    context.stats = await stat(context.path)
-  }
-}
-
-const traceSymbolicLinkAsync = async (paths: string[], path: string): Promise<void> => {
-  const l = await lstat(path)
-  if (l.isSymbolicLink()) {
-    const full = await readlink(path)
-    const real = full.startsWith('/') ? full : resolvePath(parsePath(path).dir, full)
-    paths.push(real)
-    await traceSymbolicLinkAsync(paths, real)
+  while (context.stats.isSymbolicLink()) {
+    const path = await readlink(context.path)
+    context.path = path.startsWith('/') ? path : resolvePath(parsePath(context.path).dir, path)
+    context.stats = await lstat(context.path)
   }
 }
