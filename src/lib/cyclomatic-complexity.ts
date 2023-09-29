@@ -52,8 +52,7 @@ const doNothing = () => {
 
 const visitNode = (context: VisitorContext, node: Node): void => {
   const kind = SyntaxKind[node.kind]
-  if (kind in visitors)
-    visitors[kind](context, node)
+  visitors[kind]?.(context, node)
   using _auto = context.nodeStack.push(node)
   node.forEachChild(bind1st(context, visitNode))
 }
