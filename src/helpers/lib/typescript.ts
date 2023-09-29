@@ -12,6 +12,10 @@ import {
 } from 'json5'
 
 import {
+  readFile
+} from 'fs/promises'
+
+import {
   TypeScriptConfig,
 } from '../..'
 
@@ -23,7 +27,6 @@ import {
   bind2nd,
   enumerateFilesAsync,
   findInLowerCase,
-  readFileAsync,
 } from '..'
 
 type Action<T> = (value: T) => void
@@ -87,7 +90,7 @@ export const loadTypeScriptConfigAsync = async (path: string): Promise<TypeScrip
 
 const loadTypeScriptRawConfigAsync = async (map: Map<string, TypeScriptRawConfig>, path: string): Promise<void> => {
   if (!map.has(path)) {
-    const config = parseJSON5<TypeScriptRawConfig>((await readFileAsync(path)).toString())
+    const config = parseJSON5<TypeScriptRawConfig>((await readFile(path)).toString())
     map.set(path, config)
     if (config.extends)
       config.extends instanceof Array

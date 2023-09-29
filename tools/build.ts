@@ -3,13 +3,13 @@ import { argv, env, stdout } from 'process'
 import { existsSync } from 'fs'
 import { join as joinPath } from 'path'
 import { parse as parseJSON5, } from 'json5'
+import { readFile } from 'fs/promises'
 import { spawn } from 'node-pty'
 
 import {
   bind1st,
   bind3rd,
   enumerateFilesAsync,
-  readFileAsync,
 } from '../src/helpers'
 
 type Build = {
@@ -77,7 +77,7 @@ const deleteUndefinedFields = (obj: Record<string, unknown>): void => {
 const getProperty = <T>(key: keyof ESBuildOption, esbuild?: ESBuildOption): T => (esbuild === undefined ? undefined : esbuild[key]) as unknown as T
 
 const main = async (path: string): Promise<void> => {
-  const ctx = parseJSON5<Build>((await readFileAsync(path)).toString())
+  const ctx = parseJSON5<Build>((await readFile(path)).toString())
   const rewrite = compileRegExp(ctx.rewrite)
   const bound = bind3rd(rewrite, bind1st(ctx, buildAsync))
   const tasks = [] as Promise<void>[]
