@@ -37,7 +37,7 @@ jobs:
         name: Commit changes and push if necessary
         uses: kei-g/github/put-changes@main
         with:
-          file: dist/ts-cyclomatic-complexity.js
+          file: .github/js/ts-cyclomatic-complexity.js
           github-token: ${{ secrets.GITHUB_TOKEN }}
           message: ':robot: Build by GitHub Actions'
           target-branch: main
