@@ -22,7 +22,7 @@
     "@typescript-eslint/parser": "^7.17.0",
     "chai": "^5.1.1",
     "esbuild": "^0.23.0",
-    "esbuild-register": "^3.5.0",
+    "esbuild-register": "^3.6.0",
     "eslint": "^8.57.0",
     "mocha": "^10.4.0",
     "node-pty": "^1.0.0",
