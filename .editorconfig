@@ -17,6 +17,6 @@ indent_size = 2
 indent_style = space
 quote_type = single
 
-[*.{json,md,yml}]
+[*.{json,md,mjs,yml}]
 indent_size = 2
 indent_style = space
