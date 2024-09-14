@@ -3,8 +3,9 @@ import { argv, env, stdout } from 'process'
 import { existsSync } from 'fs'
 import { join as joinPath } from 'path'
 import { parse as parseJSON5, } from 'json5'
+import { promisify } from 'util'
 import { readFile } from 'fs/promises'
-import { spawn } from 'node-pty'
+import { spawn } from 'child_process'
 
 import {
   bind1st,
@@ -44,9 +45,8 @@ const buildAsync = async (ctx: Build, esbuild: ESBuildOption | undefined, name: 
     outfile: string
   }
   const args = createArrayAsArguments(name, opts, rewrite)
-  const proc = spawn('node_modules/esbuild/bin/esbuild', args, { encoding: 'UTF-8', env })
-  proc.onData(stdout.write.bind(stdout))
-  return new Promise(proc.onExit.bind(proc))
+  const proc = spawn('node_modules/esbuild/bin/esbuild', args, { env, stdio: 'inherit', })
+  return await promisify(proc.on.bind(proc))('exit')
 }
 
 const compileRegExp = (source: Record<string, string>): Map<RegExp, string> => {

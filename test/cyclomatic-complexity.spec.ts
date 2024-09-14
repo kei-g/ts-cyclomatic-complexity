@@ -1,13 +1,14 @@
-import { IPty, spawn } from 'node-pty'
 import { calculateCyclomaticComplexityAsync } from '.'
 import { describe } from 'mocha'
 import { env } from 'process'
 import { expect } from 'chai'
+import { promisify } from 'util'
+import { spawn } from 'child_process'
 
 const abortTest = async (): Promise<void> => {
-  const pty = spawn('node', ['--require', 'esbuild-register', 'test/scripts/run.ts', '--abort'], { encoding: 'UTF-8', env })
-  pty.onData(pty.write.bind(pty))
-  await waitForExitAsync(pty)
+  const cp = spawn('node', ['--require', 'esbuild-register', 'test/scripts/run.ts', '--abort'], { env })
+  cp.stdout.on('data', cp.stdin.write.bind(cp.stdin))
+  await promisify(cp.on.bind(cp))('exit')
 }
 
 const failureTest = async (): Promise<void> => {
@@ -22,19 +23,20 @@ const successTest = async (): Promise<void> => {
 }
 
 const verboseTest = async (): Promise<void> => {
-  const pty = spawn('node', ['--require', 'esbuild-register', 'test/scripts/run.ts'], { encoding: 'UTF-8', env })
-  pty.onData(omitAll)
-  await waitForExitAsync(pty)
+  const cp = spawn('node', ['--require', 'esbuild-register', 'test/scripts/run.ts'], { env })
+  cp.stdout.on('data', omitAll)
+  await promisify(cp.on.bind(cp))('exit')
 }
 
-describe('calculateCyclomaticComplexityAsync', () => {
-  it('abort', abortTest)
-  it('failure', failureTest)
-  it('success', successTest)
-  it('verbose', verboseTest)
-})
+describe(
+  'calculateCyclomaticComplexityAsync',
+  () => {
+    it('abort', abortTest)
+    it('failure', failureTest)
+    it('success', successTest)
+    it('verbose', verboseTest)
+  }
+)
 
-const omitAll = (_data: string): void => {
+const omitAll = (_: unknown) => {
 }
-
-const waitForExitAsync = (pty: IPty): Promise<void> => new Promise<void>((resolve: () => void) => pty.onExit(resolve))
