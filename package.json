@@ -15,7 +15,7 @@
   "description": "Cyclomatic complexities for Typescript",
   "devDependencies": {
     "@actions/core": "^1.11.1",
-    "@types/chai": "^5.0.0",
+    "@types/chai": "^5.0.1",
     "@types/eslint": "^9.6.1",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.1",
