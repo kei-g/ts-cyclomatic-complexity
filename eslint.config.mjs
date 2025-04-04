@@ -7,6 +7,7 @@ export default [
   {
     files: [
       'src/**/*.ts',
+      'test/**/*.ts',
     ],
     languageOptions: {
       globals: {
