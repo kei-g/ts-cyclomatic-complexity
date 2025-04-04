@@ -1,6 +1,6 @@
+import assert from 'node:assert'
 import { describe } from 'mocha'
 import { enumerateFilesWithTypeScriptConfigAsync, loadTypeScriptConfigAsync } from '.'
-import { expect } from 'chai'
 
 type ConvertedTest = {
   body: () => Promise<void>
@@ -12,7 +12,7 @@ const convert = (path: string): ConvertedTest => {
   return {
     body: async () => {
       const config = await loadTypeScriptConfigAsync(`test/conf/${path}/tsconfig.json`)
-      expect(config).instanceOf(Object)
+      assert(config instanceof Object)
       await enumerateFilesWithTypeScriptConfigAsync(config)
     },
     name,

@@ -1,9 +1,9 @@
+import assert from 'node:assert'
 import { calculateCyclomaticComplexityAsync } from '.'
 import { describe } from 'mocha'
-import { env } from 'process'
-import { expect } from 'chai'
-import { promisify } from 'util'
-import { spawn } from 'child_process'
+import { env } from 'node:process'
+import { promisify } from 'node:util'
+import { spawn } from 'node:child_process'
 
 const abortTest = async (): Promise<void> => {
   const cp = spawn('node', ['--require', 'esbuild-register', 'test/scripts/run.ts', '--abort'], { env })
@@ -14,12 +14,12 @@ const abortTest = async (): Promise<void> => {
 const failureTest = async (): Promise<void> => {
   let caught: unknown
   await calculateCyclomaticComplexityAsync('non-existing').catch((reason?: unknown) => caught = reason)
-  expect(caught).instanceOf(Error)
+  assert(caught instanceof Error)
 }
 
 const successTest = async (): Promise<void> => {
-  const _complexity = await calculateCyclomaticComplexityAsync('test/conf/data/tsconfig.json')
-  expect(_complexity).instanceOf(Object)
+  const complexity = await calculateCyclomaticComplexityAsync('test/conf/data/tsconfig.json')
+  assert(complexity instanceof Object)
 }
 
 const verboseTest = async (): Promise<void> => {
