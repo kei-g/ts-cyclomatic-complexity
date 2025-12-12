@@ -14,7 +14,7 @@
   },
   "description": "Cyclomatic complexities for Typescript",
   "devDependencies": {
-    "@actions/core": "^2.0.0",
+    "@actions/core": "^2.0.1",
     "@types/eslint": "^9.6.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.0",
