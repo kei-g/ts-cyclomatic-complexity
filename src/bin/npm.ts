@@ -1,5 +1,5 @@
-import { argv } from 'process'
-import { existsSync } from 'fs'
+import { argv } from 'node:process'
+import { existsSync } from 'node:fs'
 
 import { calculateCyclomaticComplexityAsync } from '..'
 

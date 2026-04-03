@@ -1,4 +1,4 @@
-import { CompilerOptions, Program } from 'typescript'
+import type { CompilerOptions, Program } from 'typescript'
 
 export type TypeScriptRawConfig = {
   compilerOptions?: CompilerOptions

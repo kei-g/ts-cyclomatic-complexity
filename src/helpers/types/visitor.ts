@@ -1,6 +1,6 @@
-import { CyclomaticComplexity } from '../..'
-import { Node } from 'typescript'
-import { AutoPopStack } from '../lib'
+import type { CyclomaticComplexity } from '../../index.ts'
+import type { Node } from 'typescript'
+import type { AutoPopStack } from '../lib/index.ts'
 
 export type VisitorContext = {
   complexities: CyclomaticComplexity[]

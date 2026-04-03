@@ -1,4 +1,4 @@
-import { CompilerOptions } from 'typescript'
+import type { CompilerOptions } from 'typescript'
 
 export type TypeScriptConfig = {
   compilerOptions: CompilerOptions

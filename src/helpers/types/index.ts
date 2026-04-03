@@ -1,3 +1,3 @@
-export * from './typescript'
-export * from './unpacked'
-export * from './visitor'
+export * from './typescript.ts'
+export * from './unpacked.ts'
+export * from './visitor.ts'

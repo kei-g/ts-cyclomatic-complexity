@@ -1,5 +1,5 @@
 import {
-  CompilerOptions,
+  type CompilerOptions,
   ModuleKind,
   ModuleResolutionKind,
   NewLineKind,
@@ -13,16 +13,16 @@ import {
 
 import {
   readFile
-} from 'fs/promises'
+} from 'node:fs/promises'
 
-import {
+import type {
   TypeScriptConfig,
-} from '../..'
+} from '../../index.ts'
 
 import {
-  TypeScriptProgram,
-  TypeScriptRawConfig,
-  Unpacked,
+  type TypeScriptProgram,
+  type TypeScriptRawConfig,
+  type Unpacked,
   bind1st,
   bind2nd,
   enumerateFilesAsync,
@@ -92,8 +92,7 @@ const loadTypeScriptRawConfigAsync = async (map: Map<string, TypeScriptRawConfig
   if (!map.has(path)) {
     const config = parseJSON5<TypeScriptRawConfig>((await readFile(path)).toString())
     map.set(path, config)
-    if (config.extends)
-      config.extends instanceof Array
+    if (config.extends)Array.isArray(config.extends)
         ? await Promise.all(config.extends.map(bind1st(map, loadTypeScriptRawConfigAsync)))
         : await loadTypeScriptRawConfigAsync(map, config.extends)
   }
@@ -112,7 +111,7 @@ const mergeTypeScriptRawConfig = (raw: Map<string, TypeScriptRawConfig>, root: T
   }
   removeIfStringIsIncluded(raw, root)
   if (ctx.config.extends) {
-    const config = ctx.config.extends instanceof Array
+    const config = Array.isArray(ctx.config.extends)
       ? ctx.config.extends.map(bind1st(raw, mergeTypeScriptRawConfig)).reduce(bind1st(raw, overrideTypeScriptConfig), { compilerOptions: {} } as TypeScriptConfig)
       : raw.get(ctx.config.extends)
     delete ctx.config.extends

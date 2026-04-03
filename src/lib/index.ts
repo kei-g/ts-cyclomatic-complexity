@@ -1,1 +1,1 @@
-export * from './cyclomatic-complexity'
+export * from './cyclomatic-complexity.ts'

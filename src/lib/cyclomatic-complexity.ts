@@ -1,31 +1,31 @@
 import {
-  ArrowFunction,
-  AwaitExpression,
-  Block,
-  CallExpression,
-  ClassDeclaration,
-  ExpressionStatement,
-  FunctionDeclaration,
-  Node,
-  ObjectLiteralExpression,
-  PropertyAccessExpression,
+  type ArrowFunction,
+  type AwaitExpression,
+  type Block,
+  type CallExpression,
+  type ClassDeclaration,
+  type ExpressionStatement,
+  type FunctionDeclaration,
+  type Node,
+  type ObjectLiteralExpression,
+  type PropertyAccessExpression,
   SyntaxKind,
-  VariableDeclaration,
+  type VariableDeclaration,
 } from 'typescript'
 
-import { stdout } from 'process'
+import { stdout } from 'node:process'
 
-import { CyclomaticComplexity } from '..'
+import type { CyclomaticComplexity } from '..'
 
 import {
   AutoPopStack,
-  Visitor,
-  VisitorContext,
+  type Visitor,
+  type VisitorContext,
   bind1st,
   colorize,
   createProgramFromTypeScriptConfigAsync,
   loadTypeScriptConfigAsync,
-} from '../helpers'
+} from '../helpers/index.ts'
 
 export const calculateCyclomaticComplexityAsync = async (path: string, verbose?: true): Promise<CyclomaticComplexity[]> => {
   const tsconfig = await loadTypeScriptConfigAsync(path)

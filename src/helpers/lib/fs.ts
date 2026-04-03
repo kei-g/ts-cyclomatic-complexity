@@ -1,18 +1,18 @@
-import {
+import type {
   Stats,
-} from 'fs'
+} from 'node:fs'
 
 import {
   lstat,
   readdir,
   readlink,
-} from 'fs/promises'
+} from 'node:fs/promises'
 
 import {
   join as joinPath,
   parse as parsePath,
   resolve as resolvePath,
-} from 'path'
+} from 'node:path'
 
 type Action<T> = (arg: T) => void
 

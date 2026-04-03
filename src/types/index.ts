@@ -1,2 +1,2 @@
-export * from './cyclomatic-complexity'
-export * from './typescript'
+export * from './cyclomatic-complexity.ts'
+export * from './typescript.ts'

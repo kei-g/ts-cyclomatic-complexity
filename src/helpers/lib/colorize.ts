@@ -17,7 +17,7 @@ export const colorize = (indent: number, key: string | undefined, value: unknown
   } as Context
   if (key) {
     ctx.key = key
-    ctx.prefix = ctx.suffix + key + ': '
+    ctx.prefix = `${ctx.suffix + key}: `
   }
   else
     ctx.prefix = ctx.suffix
@@ -27,7 +27,7 @@ export const colorize = (indent: number, key: string | undefined, value: unknown
 const visitArray = (ctx: Context, array: unknown[]): string => {
   const { key, prefix, suffix } = ctx
   ctx.suffix = '  '.repeat(ctx.indent++)
-  ctx.prefix = ctx.suffix + (ctx.key ? ctx.key + ': [\n' : '[\n')
+  ctx.prefix = ctx.suffix + (ctx.key ? `${ctx.key}: [\n` : '[\n')
   const c = {
     empty: true,
     text: ctx.prefix,
@@ -39,7 +39,7 @@ const visitArray = (ctx: Context, array: unknown[]): string => {
       c.empty = false
     c.text += text
   }
-  c.text += ctx.suffix + '],\n'
+  c.text += `${ctx.suffix}],\n`
   ctx.indent--
   ctx.key = key
   ctx.prefix = prefix
@@ -64,8 +64,7 @@ const visitObject = (ctx: Context, value: object): string =>
   ctx.history.has(value)
     ? ''
     : (
-      ctx.history.add(value),
-      value instanceof Array
+      ctx.history.add(value),Array.isArray(value)
         ? value.length
           ? visitArray(ctx, value)
           : ''
@@ -75,21 +74,21 @@ const visitObject = (ctx: Context, value: object): string =>
 const visitRecord = (ctx: Context, record: Record<string, unknown>): string => {
   const { key, prefix, suffix } = ctx
   ctx.suffix = '  '.repeat(ctx.indent++)
-  ctx.prefix = ctx.suffix + (ctx.key ? ctx.key + ': {\n' : '{\n')
+  ctx.prefix = ctx.suffix + (ctx.key ? `${ctx.key}: {\n` : '{\n')
   const c = {
     empty: true,
     text: ctx.prefix,
   }
   for (const key in record) {
     ctx.key = key
-    ctx.prefix = ctx.suffix + '  ' + ctx.key + ': '
+    ctx.prefix = `${ctx.suffix}  ${ctx.key}: `
     const value = record[key]
     const text = visitUnknown(ctx, value)
     if (text.length)
       c.empty = false
     c.text += text
   }
-  c.text += ctx.suffix + '},\n'
+  c.text += `${ctx.suffix}},\n`
   ctx.indent--
   ctx.key = key
   ctx.prefix = prefix
@@ -102,7 +101,7 @@ const visitString = (ctx: Context, value: string): string => {
   const index = +(lines.length < 2)
   const values = [lines[0], value]
   const suffixes = [`'\x1b[m and \x1b[33m${lines.length - 1}\x1b[m more lines`, '\x1b[m\'']
-  return ctx.prefix + '\'\x1b[32m' + values[index] + suffixes[index] + ',\n'
+  return `${ctx.prefix}'\x1b[32m${values[index]}${suffixes[index]},\n`
 }
 
 const visitUnknown = (ctx: Context, value: unknown): string => visitors[typeof value]?.(ctx, value) ?? ''

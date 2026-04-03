@@ -1,10 +1,10 @@
-import assert = require('assert')
+import assert = require('node:assert')
 
 export class AutoPopStack<T> {
   private readonly array: Array<T>
 
   constructor(...args: T[]) {
-    this.array = new Array(...args)
+    this.array = [...args]
   }
 
   push(value: T): Disposable {
