@@ -56,6 +56,7 @@
     "github": "npm-run-all -p clean:github cover lint -s github:bundle",
     "github:bundle": "node --require esbuild-register tools/build.ts --build=conf/.build.github.json",
     "lint": "biome lint --write",
+    "postbuild:tsc": "tar -C types/src -cf - . | tar -xf - && rm -fr types",
     "prebuild": "run-p clean lint",
     "prepublishOnly": "npm-run-all -p clean lint -p cover build:*",
     "test": "run-p cover lint"
