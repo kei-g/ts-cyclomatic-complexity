@@ -1,6 +1,6 @@
-import { describe, it } from 'mocha'
-import { bind1st, bind2nd, bind3rd } from '.'
 import { equal } from 'node:assert'
+import { describe, it } from 'mocha'
+import { bind1st, bind2nd, bind3rd } from './index.ts'
 
 const test = (arg1: bigint, arg2: number, arg3: string) => `${arg1}:${arg2}:${arg3}`
 

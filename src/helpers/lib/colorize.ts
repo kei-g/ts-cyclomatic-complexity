@@ -15,6 +15,7 @@ export const colorize = (indent: number, key: string | undefined, value: unknown
     prefix: undefined,
     suffix: '  '.repeat(indent),
   } as Context
+  // biome-ignore format: 折りたたまない
   if (key) {
     ctx.key = key
     ctx.prefix = `${ctx.suffix + key}: `
@@ -35,6 +36,7 @@ const visitArray = (ctx: Context, array: unknown[]): string => {
   ctx.key = undefined
   for (const value of array) {
     const text = visitUnknown(ctx, value)
+    // biome-ignore format: 折りたたまない
     if (text.length)
       c.empty = false
     c.text += text
@@ -50,6 +52,7 @@ const visitArray = (ctx: Context, array: unknown[]): string => {
 const visitBoolean = (ctx: Context, value: boolean): string => `${ctx.prefix}\x1b[35m${['false', 'true'][+value]}\x1b[m,\n`
 
 const visitNumber = (ctx: Context, value: bigint | number): string => {
+  // biome-ignore format: 折りたたまない
   if (ctx.key === 'kind')
     return `${ctx.prefix}'\x1b[3m\x1b[32m${SyntaxKind[value as number]}\x1b[m',\n`
   else {
@@ -60,6 +63,7 @@ const visitNumber = (ctx: Context, value: bigint | number): string => {
   }
 }
 
+// biome-ignore format: 折りたたまない
 const visitObject = (ctx: Context, value: object): string =>
   ctx.history.has(value)
     ? ''
@@ -84,6 +88,7 @@ const visitRecord = (ctx: Context, record: Record<string, unknown>): string => {
     ctx.prefix = `${ctx.suffix}  ${ctx.key}: `
     const value = record[key]
     const text = visitUnknown(ctx, value)
+    // biome-ignore format: 折りたたまない
     if (text.length)
       c.empty = false
     c.text += text

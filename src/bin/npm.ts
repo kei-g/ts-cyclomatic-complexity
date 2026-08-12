@@ -8,6 +8,7 @@ const ctx = {} as {
   verbose?: true
 }
 
+// biome-ignore format: 折りたたまない
 for (let i = 2; i < argv.length; i++)
   switch (argv[i]) {
     case '--tsconfig':
@@ -17,6 +18,7 @@ for (let i = 2; i < argv.length; i++)
       ctx.verbose = true
       break
     default:
+      // biome-ignore format: 折りたたまない
       if (argv[i].startsWith('--tsconfig='))
         ctx.path ??= argv[i].split('=').slice(1).join('=')
       else if (existsSync(argv[i]))

@@ -17,6 +17,7 @@ import { stdout } from 'node:process'
 
 import type { CyclomaticComplexity } from '..'
 
+// biome-ignore format: 折りたたまない
 import {
   AutoPopStack,
   type Visitor,
@@ -40,6 +41,7 @@ export const calculateCyclomaticComplexityAsync = async (path: string, verbose?:
   }
   for (const name of program.sourceFiles) {
     const source = program.getSourceFile(name)
+    // biome-ignore format: 折りたたまない
     if (context.verbose)
       stdout.write(colorize(0, `'\x1b[32m${name}\x1b[m'`, source))
     visitNode(context, source)
@@ -47,6 +49,7 @@ export const calculateCyclomaticComplexityAsync = async (path: string, verbose?:
   return context.complexities
 }
 
+// biome-ignore format: 折りたたまない
 const doNothing = () => {
 }
 
@@ -72,27 +75,32 @@ const visitors = {
   AwaitExpression: (context: VisitorContext, node: AwaitExpression) => {
     visitProperty(context, node, 'expression')
   },
+  // biome-ignore format: 折りたたまない
   BinaryExpression: (_context: VisitorContext, _node: Node) => {
   },
   Block: (context: VisitorContext, node: Block) => {
     using _auto = context.nodeStack.push(node)
+    // biome-ignore format: 折りたたまない
     for (const statement of node.statements)
       visitNode(context, statement)
   },
   CallExpression: (context: VisitorContext, node: CallExpression) => {
     using _auto = context.nodeStack.push(node)
+    // biome-ignore format: 折りたたまない
     for (const callArgument of node.arguments)
       visitNode(context, callArgument)
     visitNode(context, node.expression)
   },
   ClassDeclaration: (context: VisitorContext, node: ClassDeclaration) => {
     using _auto = context.nodeStack.push(node)
+    // biome-ignore format: 折りたたまない
     for (const member of node.members)
       visitNode(context, member)
   },
   ExpressionStatement: (context: VisitorContext, node: ExpressionStatement) => {
     visitProperty(context, node, 'expression')
   },
+  // biome-ignore format: 折りたたまない
   FirstStatement: (_context: VisitorContext, _node: Node) => {
   },
   FunctionDeclaration: (context: VisitorContext, node: FunctionDeclaration) => {
@@ -100,17 +108,20 @@ const visitors = {
   },
   ObjectLiteralExpression: (context: VisitorContext, node: ObjectLiteralExpression) => {
     using _auto = context.nodeStack.push(node)
+    // biome-ignore format: 折りたたまない
     for (const property of node.properties)
       visitNode(context, property)
   },
   PropertyAccessExpression: (context: VisitorContext, node: PropertyAccessExpression) => {
     visitProperty(context, node, 'expression')
   },
+  // biome-ignore format: 折りたたまない
   SourceFile: (_context: VisitorContext, _node: Node) => {
   },
   VariableDeclaration: (context: VisitorContext, node: VariableDeclaration) => {
     visitProperty(context, node, 'initializer')
   },
+  // biome-ignore format: 折りたたまない
   VariableDeclarationList: (_context: VisitorContext, _node: Node) => {
   },
 } as unknown as Record<string, Visitor>

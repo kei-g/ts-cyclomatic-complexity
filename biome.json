@@ -8,32 +8,22 @@
     }
   },
   "files": {
-    "includes": [
-      "**",
-      "!*.d.ts",
-      "!*.js",
-      "!.github",
-      "!.vscode",
-      "!bin",
-      "!coverage",
-      "!helpers",
-      "!lib",
-      "!node_modules",
-      "!test",
-      "!tools",
-      "!types"
-    ],
+    "includes": ["**/*.ts"],
     "ignoreUnknown": true
   },
   "formatter": {
     "enabled": true,
+    "includes": ["**/*.ts"],
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineEnding": "lf"
+    "lineEnding": "lf",
+    "lineWidth": 320
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single"
+      "lineWidth": 320,
+      "quoteStyle": "single",
+      "semicolons": "asNeeded"
     }
   },
   "linter": {
@@ -68,6 +58,7 @@
         "useShorthandFunctionType": "error"
       },
       "suspicious": {
+        "noApproximativeNumericConstant": "off",
         "noAssignInExpressions": "off",
         "noControlCharactersInRegex": "off",
         "noEvolvingTypes": "error"
@@ -77,6 +68,6 @@
   "vcs": {
     "clientKind": "git",
     "enabled": true,
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   }
 }

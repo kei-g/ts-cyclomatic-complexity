@@ -1,8 +1,8 @@
 import assert from 'node:assert'
-import { TemporaryDirectory, enumerateFilesAsync } from '.'
+import { join as joinPath } from 'node:path'
 import { cwd } from 'node:process'
 import { describe, it } from 'mocha'
-import { join as joinPath } from 'node:path'
+import { enumerateFilesAsync, TemporaryDirectory } from './index.ts'
 
 describe('enumerateFilesAsync', () => {
   it('success', async () => {
@@ -21,7 +21,7 @@ describe('enumerateFilesAsync', () => {
   it('failure', async () => {
     let caught: unknown
     const paths: string[] = []
-    await enumerateFilesAsync('non-existing', paths.push.bind(paths)).catch((reason?: unknown) => caught = reason)
+    await enumerateFilesAsync('non-existing', paths.push.bind(paths)).catch((reason?: unknown) => (caught = reason))
     assert(caught instanceof Error)
   })
 })

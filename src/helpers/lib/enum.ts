@@ -1,3 +1,4 @@
+// biome-ignore format: 折りたたまない
 const doNothing = () => {
 }
 
@@ -12,6 +13,7 @@ const mapInLowerCase = <T extends { [id: number | string]: number | string }>(en
   const values = selectByTypeName(enumType, 'number')
   const map = {} as Record<string, number>
   let index = 0 as number
+  // biome-ignore format: 折りたたまない
   for (const name of selectByTypeName(enumType, 'string'))
     map[name.toLowerCase()] = values[index++]
   return map
@@ -23,6 +25,7 @@ function selectByTypeName<T extends { [id: number | string]: number | string }>(
   const list = [] as unknown[]
   const push = Array.prototype.push.bind(list)
   const functions = [doNothing, push]
+  // biome-ignore format: 折りたたまない
   for (const value in type)
     functions[+(typeof value === typeName)](value)
   return list as number[] | string[]

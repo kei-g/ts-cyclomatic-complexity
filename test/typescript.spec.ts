@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe } from 'mocha'
-import { enumerateFilesWithTypeScriptConfigAsync, loadTypeScriptConfigAsync } from '.'
+import { enumerateFilesWithTypeScriptConfigAsync, loadTypeScriptConfigAsync } from './index.ts'
 
 type ConvertedTest = {
   body: () => Promise<void>
@@ -19,4 +19,13 @@ const convert = (path: string): ConvertedTest => {
   }
 }
 
-describe('loadTypeScriptConfigAsync', () => ['cyclic-extends', 'empty', 'include-tools', 'multiple-extends'].map(convert).forEach((test: ConvertedTest) => it(test.name, test.body)))
+// biome-ignore format: 折りたたまない
+describe(
+  'loadTypeScriptConfigAsync',
+  () => {
+    it('cyclic extends', convert('cyclic-extends').body)
+    it('empty', convert('empty').body)
+    it('include tools', convert('include-tools').body)
+    it('multiple extends', convert('multiple-extends').body)
+  }
+)

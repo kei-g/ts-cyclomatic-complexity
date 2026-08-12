@@ -1,9 +1,9 @@
 import assert from 'node:assert'
-import { calculateCyclomaticComplexityAsync } from '.'
-import { describe } from 'mocha'
+import { spawn } from 'node:child_process'
 import { env } from 'node:process'
 import { promisify } from 'node:util'
-import { spawn } from 'node:child_process'
+import { describe } from 'mocha'
+import { calculateCyclomaticComplexityAsync } from './index.ts'
 
 const abortTest = async (): Promise<void> => {
   const cp = spawn('node', ['--require', 'esbuild-register', 'test/scripts/run.ts', '--abort'], { env })
@@ -13,7 +13,7 @@ const abortTest = async (): Promise<void> => {
 
 const failureTest = async (): Promise<void> => {
   let caught: unknown
-  await calculateCyclomaticComplexityAsync('non-existing').catch((reason?: unknown) => caught = reason)
+  await calculateCyclomaticComplexityAsync('non-existing').catch((reason?: unknown) => (caught = reason))
   assert(caught instanceof Error)
 }
 
@@ -28,6 +28,7 @@ const verboseTest = async (): Promise<void> => {
   await promisify(cp.on.bind(cp))('exit')
 }
 
+// biome-ignore format: 折りたたまない
 describe(
   'calculateCyclomaticComplexityAsync',
   () => {
@@ -38,5 +39,6 @@ describe(
   }
 )
 
+// biome-ignore format: 折りたたまない
 const omitAll = (_: unknown) => {
 }

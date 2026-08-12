@@ -1,13 +1,16 @@
+// biome-ignore format: 折りたたまない
 import type {
   Stats,
 } from 'node:fs'
 
+// biome-ignore format: 折りたたまない
 import {
   lstat,
   readdir,
   readlink,
 } from 'node:fs/promises'
 
+// biome-ignore format: 折りたたまない
 import {
   join as joinPath,
   parse as parsePath,
@@ -29,8 +32,10 @@ export const enumerateFilesAsync = async (path: string, callback: Action<string>
       stats: await lstat(full),
     }
     await resolveSymbolicLinkAsync(ctx)
+    // biome-ignore format: 折りたたまない
     if (ctx.stats.isDirectory())
       await enumerateFilesAsync(ctx.path, callback)
+    // biome-ignore format: 折りたたまない
     else if (ctx.stats.isFile())
       callback(ctx.path)
   }

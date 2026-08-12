@@ -5,7 +5,9 @@ export class Foo {
 
   private readonly sum: number
 
+  // biome-ignore format: 折りたたまない
   constructor(readonly name: string, ...args: number[]) {
+    // biome-ignore format: 折りたたまない
     for (const value of args)
       this.sum += value
   }
@@ -16,6 +18,7 @@ export class Foo {
 }
 
 class Bar {
+  // biome-ignore format: 折りたたまない
   constructor(private readonly value: number) {
   }
 

@@ -1,21 +1,17 @@
-import { Format, Platform } from 'esbuild'
-import { argv, env, stdout } from 'process'
-import { existsSync } from 'fs'
-import { join as joinPath } from 'path'
-import { parse as parseJSON5, } from 'json5'
-import { promisify } from 'util'
-import { readFile } from 'fs/promises'
-import { spawn } from 'child_process'
+import { spawn } from 'node:child_process'
+import { existsSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
+import { join as joinPath } from 'node:path'
+import { argv, env } from 'node:process'
+import { promisify } from 'node:util'
+import type { Format, Platform } from 'esbuild'
+import { parse as parseJSON5 } from 'json5'
 
-import {
-  bind1st,
-  bind3rd,
-  enumerateFilesAsync,
-} from '../src/helpers'
+import { bind1st, bind3rd, enumerateFilesAsync } from '../src/helpers/index.ts'
 
 type Build = {
   esbuild: ESBuildOption
-  files: Record<string, { esbuild?: ESBuildOption, recursive?: true }>
+  files: Record<string, { esbuild?: ESBuildOption; recursive?: true }>
   rewrite: Record<string, string>
 }
 
@@ -29,7 +25,10 @@ type ESBuildOption = {
   target?: string
 }
 
-const bindToAppend = <T>(list: T[]): (value: T, index: number, array: T[]) => number => (value: T, _index: number, _array: T[]) => list.push(value)
+const bindToAppend =
+  <T>(list: T[]): ((value: T, index: number, array: T[]) => number) =>
+  (value: T, _index: number, _array: T[]) =>
+    list.push(value)
 
 const buildAsync = async (ctx: Build, esbuild: ESBuildOption | undefined, name: string, rewrite: Map<RegExp, string>): Promise<void> => {
   const opts = {
@@ -45,14 +44,13 @@ const buildAsync = async (ctx: Build, esbuild: ESBuildOption | undefined, name: 
     outfile: string
   }
   const args = createArrayAsArguments(name, opts, rewrite)
-  const proc = spawn('node_modules/esbuild/bin/esbuild', args, { env, stdio: 'inherit', })
+  const proc = spawn('node_modules/esbuild/bin/esbuild', args, { env, stdio: 'inherit' })
   return await promisify(proc.on.bind(proc))('exit')
 }
 
 const compileRegExp = (source: Record<string, string>): Map<RegExp, string> => {
   const map = new Map<RegExp, string>()
-  for (const key in source)
-    map.set(new RegExp(key, 'g'), source[key])
+  for (const key in source) map.set(new RegExp(key, 'g'), source[key])
   return map
 }
 
@@ -63,15 +61,12 @@ const createArrayAsArguments = (name: string, opts: ESBuildOption, rewrite: Map<
   rewriteOutputFilePath(opts as unknown as { outfile: string }, rewrite)
   const args = [name]
   const doAppend = bindToAppend(args)
-  for (const key in opts)
-    key === 'external' ? opts[key]?.map(composeExternal)?.forEach(doAppend) : args.push(`--${key}=${opts[key]}`)
+  for (const key in opts) key === 'external' ? opts[key]?.map(composeExternal)?.forEach(doAppend) : args.push(`--${key}=${opts[key]}`)
   return args
 }
 
 const deleteUndefinedFields = (obj: Record<string, unknown>): void => {
-  for (const key in obj)
-    if (obj[key] === undefined)
-      delete obj[key]
+  for (const key in obj) if (obj[key] === undefined) delete obj[key]
 }
 
 const getProperty = <T>(key: keyof ESBuildOption, esbuild?: ESBuildOption): T => (esbuild === undefined ? undefined : esbuild[key]) as unknown as T
@@ -88,9 +83,7 @@ const main = async (path: string): Promise<void> => {
       const doAppend = list.push.bind(list)
       await enumerateFilesAsync(name, doAppend)
       tasks.push(...list.map(bind1st(record.esbuild, bound)))
-    }
-    else
-      tasks.push(buildAsync(ctx, record.esbuild, name, rewrite))
+    } else tasks.push(buildAsync(ctx, record.esbuild, name, rewrite))
   }
   await Promise.all(tasks)
 }
@@ -98,8 +91,7 @@ const main = async (path: string): Promise<void> => {
 const mergeProperty = <T>(key: keyof ESBuildOption, esb1: ESBuildOption | undefined, esb2: ESBuildOption, defaultValue: T): T => (getProperty(key, esb1) ?? esb2[key] ?? defaultValue) as unknown as T
 
 const rewriteOutputFilePath = (opts: { outfile: string }, rewrite: Map<RegExp, string>): void => {
-  for (const e of rewrite.entries())
-    opts.outfile = opts.outfile.replace(e[0], e[1])
+  for (const e of rewrite.entries()) opts.outfile = opts.outfile.replace(e[0], e[1])
 }
 
 const ctx = {} as {
@@ -112,10 +104,8 @@ for (let i = 2; i < argv.length; i++)
       ctx.path ??= argv[++i]
       break
     default:
-      if (argv[i].startsWith('--build='))
-        ctx.path ??= argv[i].split('=').slice(1).join('=')
-      else if (existsSync(argv[i]))
-        ctx.path ??= argv[i]
+      if (argv[i].startsWith('--build=')) ctx.path ??= argv[i].split('=').slice(1).join('=')
+      else if (existsSync(argv[i])) ctx.path ??= argv[i]
       break
   }
 

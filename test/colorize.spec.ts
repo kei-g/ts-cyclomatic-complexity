@@ -1,7 +1,7 @@
-import { describe, it } from 'mocha'
 import { equal } from 'node:assert'
+import { describe, it } from 'mocha'
 
-import { colorize } from '.'
+import { colorize } from './index.ts'
 
 describe('colorize', () => {
   it('array', () => {

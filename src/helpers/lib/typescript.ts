@@ -1,3 +1,4 @@
+// biome-ignore format: 折りたたまない
 import {
   type CompilerOptions,
   ModuleKind,
@@ -7,18 +8,22 @@ import {
   createProgram,
 } from 'typescript'
 
+// biome-ignore format: 折りたたまない
 import {
   parse as parseJSON5
 } from 'json5'
 
+// biome-ignore format: 折りたたまない
 import {
   readFile
 } from 'node:fs/promises'
 
+// biome-ignore format: 折りたたまない
 import type {
   TypeScriptConfig,
 } from '../../index.ts'
 
+// biome-ignore format: 折りたたまない
 import {
   type TypeScriptProgram,
   type TypeScriptRawConfig,
@@ -33,14 +38,18 @@ type Action<T> = (value: T) => void
 
 const appendFilePath = (list: Set<string>, path: string): void => {
   const [last, prev, ..._rest] = path.split('.').reverse()
+  // biome-ignore format: 折りたたまない
   if (last === 'ts' && !(prev === 'd'))
     list.add(path)
 }
 
+// biome-ignore format: 折りたたまない
 const bindToPushOrAssign = <K extends keyof T, T, V extends Unpacked<T[K]>>(obj: T, key: K): Action<V> => (value: V): number => boundDoPush(obj, key, value) ?? boundDoAssign(obj, key, value)
 
+// biome-ignore format: 折りたたまない
 const boundDoAssign = <K extends keyof T, T, V extends Unpacked<T[K]>>(obj: T, key: K, value: V): number => (obj[key] = [value] as unknown as T[K], 1)
 
+// biome-ignore format: 折りたたまない
 const boundDoPush = <K extends keyof T, T, V extends Unpacked<T[K]>>(obj: T, key: K, value: V): number | undefined => (obj[key] as unknown as V[])?.includes(value) ? 1 : (obj[key] as unknown as V[])?.push(value)
 
 const correctModuleResolution = (moduleResolution?: ModuleResolutionKind): ModuleResolutionKind => {
@@ -80,6 +89,7 @@ export const enumerateFilesWithTypeScriptConfigAsync = async (tsconfig: TypeScri
   return [...list]
 }
 
+// biome-ignore format: 折りたたまない
 const getTypeScriptRawConfig = (raw: Map<string, TypeScriptRawConfig>, configOrName: TypeScriptRawConfig | string): TypeScriptRawConfig => typeof configOrName === 'string' ? raw.get(configOrName) ?? { compilerOptions: {} } : [configOrName, { compilerOptions: {} }][+(configOrName === undefined)]
 
 export const loadTypeScriptConfigAsync = async (path: string): Promise<TypeScriptConfig> => {
@@ -92,7 +102,9 @@ const loadTypeScriptRawConfigAsync = async (map: Map<string, TypeScriptRawConfig
   if (!map.has(path)) {
     const config = parseJSON5<TypeScriptRawConfig>((await readFile(path)).toString())
     map.set(path, config)
-    if (config.extends)Array.isArray(config.extends)
+    // biome-ignore format: 折りたたまない
+    if (config.extends)
+      Array.isArray(config.extends)
         ? await Promise.all(config.extends.map(bind1st(map, loadTypeScriptRawConfigAsync)))
         : await loadTypeScriptRawConfigAsync(map, config.extends)
   }
@@ -100,12 +112,14 @@ const loadTypeScriptRawConfigAsync = async (map: Map<string, TypeScriptRawConfig
 
 const mergeCompilerOptions = (lhs: CompilerOptions, rhs: CompilerOptions): CompilerOptions => {
   const opts = lhs ?? {}
+  // biome-ignore format: 折りたたまない
   for (const key in rhs)
     opts[key] = rhs[key]
   return opts
 }
 
 const mergeTypeScriptRawConfig = (raw: Map<string, TypeScriptRawConfig>, root: TypeScriptRawConfig | string): TypeScriptConfig => {
+  // biome-ignore format: 折りたたまない
   const ctx = {
     config: getTypeScriptRawConfig(raw, root),
   }
@@ -129,6 +143,7 @@ const overrideTypeScriptConfig = (raw: Map<string, TypeScriptRawConfig>, lhs: Ty
 }
 
 const removeIfStringIsIncluded = (raw: Map<string, TypeScriptRawConfig>, configOrName: TypeScriptRawConfig | string): void => {
+  // biome-ignore format: 折りたたまない
   if (typeof configOrName === 'string')
     raw.delete(configOrName)
 }
