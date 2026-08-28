@@ -17,7 +17,7 @@
     "@actions/core": "^3.0.1",
     "@biomejs/biome": "^2.5.10",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.3.0",
     "esbuild": "^0.28.2",
     "esbuild-register": "^3.6.0",
     "globals": "^17.11.0",
